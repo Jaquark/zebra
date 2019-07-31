@@ -112,9 +112,10 @@ norwegian(H) :-
 %who owns the Zebra
 %using the member function
 who_owns_the_zebra(Person) :- 
+    neighborhood(N),
     member(house(_,Person,_,_,zebra), N).
 
-who_owns_the_snail(Person, N) :- 
+who_owns_the_snail(Person) :- 
     /* what is a singleton variable warning?
         Warning: /home/christopher/Desktop/Project2/zebra.pl:114:
         Singleton variables: [N]
@@ -122,27 +123,44 @@ who_owns_the_snail(Person, N) :-
         if I run [zebra]. neighborhood(N). who_owns_the_snail(N). I just get true?
         N looks to be out of scope, pass it in as a variable?
                 ?- [zebra].
-                Warning: /home/christopher/Desktop/Project2/zebra.pl:114:
-                        Singleton variables: [N]
-                true.
+            Warning: /home/christopher/Desktop/Project2/zebra.pl:114:
+                    Singleton variables: [N]
+            true.
 
-                ?- length(N,5).
-                N = [_6616, _6622, _6628, _6634, _6640].
+            ?- length(N,5).
+            N = [_6616, _6622, _6628, _6634, _6640].
 
-                ?- neighborhood(N).
+            ?- neighborhood(N).
 
-                Could not reenable global-stack
-                Could not reenable global-stack
-                Could not reenable global-stack
-                Could not reenable global-stack
+            Could not reenable global-stack
+            Could not reenable global-stack
+            Could not reenable global-stack
+            Could not reenable global-stack
 
-        Nope....
+    */
+    neighborhood(N), %Does this work?
+    /* Yes
+    ?- [zebra].
+    Warning: /home/christopher/Desktop/Project2/zebra.pl:114:
+            Singleton variables: [N]
+    true.
+
+    ?- who_owns_the_snail(Person).
+    Person = norwegian 
+
+    The same thing should then work for the zebra and water;
+    just have to implement the other rules.
     */
     member(house(_,Person,_,_,snail), N).
 
 %who drinks the water
+who_drinks_water(Person) :- 
+    neighborhood(N),
+    member(house(_,Person,water,_,_), N).
 
 neighborhood(N) :-
+    %rule 1
+    length(N,5),
     %rule 2
     englishhouse(N),
     %rule 3
