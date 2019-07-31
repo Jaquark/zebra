@@ -17,79 +17,86 @@
 %2.The Englishman lives in the red house.
 
 englishhouse(H) :-
-    member(house((red,
+    member(house(red,
                   english,
                   _, %Don't know the drink
                   _, %don't know their smokes
                   _ %don't know their pet
-                  )), H).
+                  ), H).
 
 %Rule 3:
 %3.The Spaniard owns the dog.
 spaniardshouse(H) :-
-    member(house((_, %don't know the color
+    member(house(_, %don't know the color
                  spanish,
                  _, %dont know the drink
                  _, %don't know what they smoke
                  dog
-                 )), H).
+                 ), H).
 
 %4.Coffee is drunk in the green house.
 coffeedrinkers(H) :-
-        member(house((green, 
+        member(house(green, 
                      _, %don't know the nationality
                      coffee, %dont know the drink
                      _, %don't know what they smoke
                      _ % don't know the pet
-                    )), H).
+                    ), H).
 
 %5.The Ukrainian drinks tea.
 ukrainianteadrinker(H) :-
-    member(house((_, 
+    member(house(_, 
                  ukrainian,
                  tea,
                  _, %don't know what they smoke
                  _ % don't know the pet
-                )), H).
+                ), H).
 
 %7.The Old Gold smoker owns snails.
 oldgoldsnails(H) :-
-    member(house((_, 
+    member(house(_, 
                  _,
                  _,
                  oldgold,
                  snail
-                )), H).
+                ), H).
 %8.Kools are smoked in the yellow house.
 koolyellow(H) :-
-    member(house((yellow, 
+    member(house(yellow, 
                  _,
                  _,
                  kool,
                  _
-                )), H).
+                ), H).
 
 %13.The Lucky Strike smoker drinks orange juice.
 luckyoj(H) :-
-    member(house((_, 
+    member(house(_, 
             _,
             oj,
             luckystrike,
             _
-           )), H).
+           ), H).
 %14.The Japanese smokes Parliaments.
 japaneseparliament(H) :-
-    member(house((_, 
+    member(house(_, 
             japanese,
             _,
             parliament,
             _
-           )), H).
+           ), H).
 
 % While some predicates are easy to make, 'the person who owns snails smokes cools'
 % some are much more difficult
 %6.The green house is immediately to the right of the ivory house.(yourright)
+
 %9.Milk is drunk in the middle house.
+% We have the list of house objects pased in as H,
+% can we just, then, simply add a house predicate into the 'middle' house?
+milk(H) :-
+    H = [_,_,house(_,_,milk,_,_),_,_].
+
+
 %10.The Norwegian lives in the first house.
 %11.The man who smokes Chesterfields lives in the house next to the man with the fox.
 %12.Kools are smoked in the house next to the house where the horse is kept.
@@ -114,6 +121,7 @@ neighborhood(N) :-
     %rule 8
     koolyellow(N),
     %rule 9,
+    milk(N),
     %rule 10,
     %rule 11,
     %rule 12,
@@ -138,5 +146,5 @@ For built-in help, use ?- help(Topic). or ?- apropos(Word).
 true.
 
 ?- neighborhood(N).
-N = [house((red, english, _6676, oldgold, snail)), house((green, spanish, coffee, _6710, dog)), house((yellow, ukrainian, tea, kool, _6768)), house((_6832, _6838, oj, luckystrike, _6852)), house((_6860, japanese, _6872, ..., ...))] 
+N = [house(red, english, _6676, oldgold, snail), house(green, spanish, coffee, _6710, dog), house(yellow, ukrainian, tea, kool, _6768), house(_6832, _6838, oj, luckystrike, _6852), house(_6860, japanese, _6872, ..., ...)] 
 */
