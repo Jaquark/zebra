@@ -148,3 +148,20 @@ true.
 ?- neighborhood(N).
 N = [house(red, english, _6676, oldgold, snail), house(green, spanish, coffee, _6710, dog), house(yellow, ukrainian, tea, kool, _6768), house(_6832, _6838, oj, luckystrike, _6852), house(_6860, japanese, _6872, ..., ...)] 
 */
+
+/*
+Adding in the milk drinker:
+christopher@christopher-NV57H:~/Desktop/Project2$ swipl
+Welcome to SWI-Prolog (threaded, 64 bits, version 8.0.3)
+SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
+Please run ?- license. for legal details.
+
+For online help and background, visit http://www.swi-prolog.org
+For built-in help, use ?- help(Topic). or ?- apropos(Word).
+
+?- [zebra].
+true.
+
+?- neighborhood(N).
+N = [house(red, english, _6664, oldgold, snail), house(green, spanish, coffee, _6678, dog), house(_6732, japanese, milk, parliament, _6740), house(yellow, ukrainian, tea, kool, _6704), house(_6744, _6746, oj, luckystrike, _6752)] 
+*/
