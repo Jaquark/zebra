@@ -6,7 +6,7 @@
 %       {Norwegian, Ukrainian, English, Spaniard, Japanese},
 %       {Water, Tea, Milk, OJ, Coffee},
 %       {Kools, Chesterfields, Oldgold, Luckystrike, Parliament},
-%       {Fox, Horse, Snails, Dog, Zeba} }
+%       {Fox, Horse, Snails, Dog, Zebra} }
 %
 
 
@@ -108,10 +108,41 @@ norwegian(H) :-
 %15.The Norwegian lives next to the blue house
 
 
+%We also need to ultimately ask 
+%who owns the Zebra
+%using the member function
+who_owns_the_zebra(Person) :- 
+    member(house(_,Person,_,_,zebra), N).
+
+who_owns_the_snail(Person, N) :- 
+    /* what is a singleton variable warning?
+        Warning: /home/christopher/Desktop/Project2/zebra.pl:114:
+        Singleton variables: [N]
+        It's not bound? https://www.swi-prolog.org/FAQ/SingletonVar.html
+        if I run [zebra]. neighborhood(N). who_owns_the_snail(N). I just get true?
+        N looks to be out of scope, pass it in as a variable?
+                ?- [zebra].
+                Warning: /home/christopher/Desktop/Project2/zebra.pl:114:
+                        Singleton variables: [N]
+                true.
+
+                ?- length(N,5).
+                N = [_6616, _6622, _6628, _6634, _6640].
+
+                ?- neighborhood(N).
+
+                Could not reenable global-stack
+                Could not reenable global-stack
+                Could not reenable global-stack
+                Could not reenable global-stack
+
+        Nope....
+    */
+    member(house(_,Person,_,_,snail), N).
+
+%who drinks the water
+
 neighborhood(N) :-
-    %rule 1
-    %there are 5 houses,
-    length(N,5),
     %rule 2
     englishhouse(N),
     %rule 3
