@@ -98,6 +98,11 @@ milk(H) :-
 
 
 %10.The Norwegian lives in the first house.
+%It seems it just is that easy, as we saw from the milk predicate function
+%We can then, with the Norwegian, just take the head:
+norwegian(H) :-
+    H = [house(_,norwegian,_,_,_)|_].
+
 %11.The man who smokes Chesterfields lives in the house next to the man with the fox.
 %12.Kools are smoked in the house next to the house where the horse is kept.
 %15.The Norwegian lives next to the blue house
@@ -123,6 +128,7 @@ neighborhood(N) :-
     %rule 9,
     milk(N),
     %rule 10,
+    norwegian(N), %I expect the english man's house to no longer be first...
     %rule 11,
     %rule 12,
     %rule 13
@@ -164,4 +170,22 @@ true.
 
 ?- neighborhood(N).
 N = [house(red, english, _6664, oldgold, snail), house(green, spanish, coffee, _6678, dog), house(_6732, japanese, milk, parliament, _6740), house(yellow, ukrainian, tea, kool, _6704), house(_6744, _6746, oj, luckystrike, _6752)] 
+*/
+
+/*
+Adding the norwegian...
+christopher@christopher-NV57H:~/Desktop/Project2$ swipl
+Welcome to SWI-Prolog (threaded, 64 bits, version 8.0.3)
+SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
+Please run ?- license. for legal details.
+
+For online help and background, visit http://www.swi-prolog.org
+For built-in help, use ?- help(Topic). or ?- apropos(Word).
+
+?- [zebra].
+true.
+
+?- neighborhood(N)
+|    .
+N = [house(green, norwegian, coffee, oldgold, snail), house(red, english, oj, luckystrike, _6668), house(yellow, spanish, milk, kool, dog), house(_6696, ukrainian, tea, _6702, _6704), house(_6744, japanese, _6748, parliament, _6752)] 
 */
