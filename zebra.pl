@@ -103,6 +103,17 @@ milk(H) :-
 norwegian(H) :-
     H = [house(_,norwegian,_,_,_)|_].
 
+%Interesting to note that 
+% [house(_,norwegian,_,_,_),_,_,_,_] is sematically the same [house(_,norwegian,_,_,_)|_]
+% First, in this case, can be thought of as 'to the left of second'
+% Does that mean, then, we can literally order things?
+% that is (back to rule 6) the green house is immediately to the right of the ivory house
+% would roughly translate to [White,Green|_]
+
+%Rule 6, maybe
+whitehousenexttogreencheck(H) :-
+    H = [house(white,_,_,_,_),house(green,_,_,_,_)|_].
+
 %11.The man who smokes Chesterfields lives in the house next to the man with the fox.
 %12.Kools are smoked in the house next to the house where the horse is kept.
 %15.The Norwegian lives next to the blue house
@@ -170,6 +181,7 @@ neighborhood(N) :-
     %rule 5
     ukrainianteadrinker(N),
     %rule 6,
+    whitehousenexttogreencheck(N),
     %rule 7
     oldgoldsnails(N),
     %rule 8
