@@ -111,10 +111,43 @@ norwegian(H) :-
 % would roughly translate to [White,Green|_]
 
 %Rule 6, maybe
-whitehousenexttogreencheck(H) :-
+whitehouselefttogreencheck(H) :-
     H = [house(white,_,_,_,_),house(green,_,_,_,_)|_].
 
+%which yielded this:
+/*
+?- neighborhood(N).
+N = [house(white, norwegian, oj, luckystrike, _6716), house(green, spanish, coffee, _6678, dog), 
+house(red, english, milk, oldgold, snail),
+ house(yellow, ukrainian, tea, kool, _6704), 
+ house(_6756, japanese, _6760, parliament, _6764)] 
+
+ and that /looks. right to me, as compared to other versions.
+*/
+
+/*
+"Next to", like rules 11, 12, 15, is like 'immediately to the right of' *or* 'immediately to the left of'
+We know from rule 6 how to do the 'immediately to the left', immediately to the right is just reverse of that
+*/
+
+%H2 is to the right of H1%
+totheright(H1,H2,Houses) :-
+    Houses = [ H1,H2 | _ ].
+
+%H2 is to the left of H1%
+totheleft(H1,H2,Houses) :-
+    Houses = [ H2,H1 | _ ].
+
+%Next to = to the left || to the right %
+nextto(H1,H2,Houses) :-
+    totheright(H1,H2,Houses),
+    totheleft(H1,H2,Houses).
+
 %11.The man who smokes Chesterfields lives in the house next to the man with the fox.
+chesterfieldsnexttofox(N) :-
+    nextto(h(_,_,_,chesterfield,_),
+           h(_,_,_,_,fox),
+           N).
 %12.Kools are smoked in the house next to the house where the horse is kept.
 %15.The Norwegian lives next to the blue house
 
@@ -181,7 +214,7 @@ neighborhood(N) :-
     %rule 5
     ukrainianteadrinker(N),
     %rule 6,
-    whitehousenexttogreencheck(N),
+    whitehouselefttogreencheck(N),
     %rule 7
     oldgoldsnails(N),
     %rule 8
@@ -191,6 +224,7 @@ neighborhood(N) :-
     %rule 10,
     norwegian(N), %I expect the english man's house to no longer be first...
     %rule 11,
+    chesterfieldsnexttofox(N),
     %rule 12,
     %rule 13
     luckyoj(N),
