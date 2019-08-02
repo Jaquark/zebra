@@ -179,7 +179,11 @@ neighborhood(N) :-
 
 /*
 ?- neighborhood(N).
-N = [house(yellow, norwegian, _6778, kool, fox), house(blue, ukrainian, tea, chesterfield, horse), house(red, english, milk, oldgold, snail), house(white, spanish, oj, luckystrike, dog), house(green, japanese, coffee, parliament, _6692)] .
+N = [house(yellow, norwegian, _6778, kool, fox), 
+    house(blue, ukrainian, tea, chesterfield, horse),
+    house(red, english, milk, oldgold, snail),
+    house(white, spanish, oj, luckystrike, dog), 
+    house(green, japanese, coffee, parliament, _6692)] .
 
 ?- who_owns_the_zebra(N).
 N = japanese .
