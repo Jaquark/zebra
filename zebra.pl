@@ -20,17 +20,17 @@ englishhouse(H) :-
     member(house(red,
                   english,
                   _, %Don't know the drink
-                  _, %don't know their smokes
-                  _ %don't know their pet
+                  _, %don't knowpythontheir smokes
+                  _ %don't know pythonheir pet
                   ), H).
 
 %Rule 3:
 %3.The Spaniard owns the dog.
 spaniardshouse(H) :-
-    member(house(_, %don't know the color
+    member(house(_, %don't know pythonhe color
                  spanish,
-                 _, %dont know the drink
-                 _, %don't know what they smoke
+                 _, %dont know tpythone drink
+                 _, %don't know pythonhat they smoke
                  dog
                  ), H).
 
@@ -111,8 +111,17 @@ norwegian(H) :-
 % would roughly translate to [White,Green|_]
 
 %Rule 6, maybe
+/*
 whitehouselefttogreencheck(H) :-
     H = [house(white,_,_,_,_),house(green,_,_,_,_)|_].
+
+As it turns out: No.
+The order, though, is basically true, but only works in the case of the leftmost, or rightmost...
+we would need to create a list of [L,R] or [R,L] and append it to H...
+Or just go through the permutations, as added to totheright and totheleft
+*/
+
+
 
 %which yielded this:
 /*
@@ -132,11 +141,11 @@ We know from rule 6 how to do the 'immediately to the left', immediately to the 
 
 %H2 is to the right of H1%
 totheright(H1,H2,Houses) :-
-    Houses = [ H1,H2 | _ ].
+    Houses = [ H1,H2,_,_, _ ]; [ _, H1,H2,_, _ ] ; [ _,_,H1,H2,_, _ ] ; [ _,_,_,H1,H2 ].
 
 %H2 is to the left of H1%
 totheleft(H1,H2,Houses) :-
-    Houses = [ H2,H1 | _ ].
+    Houses = [ H2,H1,_,_, _ ]; [ _,H2,H1,_,_, _ ] ; [ _,_,H2,H1,_, _] ; [ _,_,_,H2,H1].
 
 %Next to = to the left || to the right %
 nextto(H1,H2,Houses) :-
@@ -221,7 +230,7 @@ neighborhood(N) :-
     %rule 5
     ukrainianteadrinker(N),
     %rule 6,
-    whitehouselefttogreencheck(N),
+    totheleft( house(white,_,_,_,_) , house(green,_,_,_,_) ,N),
     %rule 7
     oldgoldsnails(N),
     %rule 8
@@ -237,9 +246,9 @@ neighborhood(N) :-
     %rule 13
     luckyoj(N),
     %rule 14
-    japaneseparliament(N),
+    japaneseparliament(N).
     %rule 15
-    norwaynexttoblue(N).
+    %norwaynexttoblue(N).
 
 
 %All the simple rules...:
