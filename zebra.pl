@@ -114,9 +114,11 @@ norwegian(H) :-
 % https://stackoverflow.com/questions/35667142/prolog-finding-adjacent-elements-in-a-list
 
 %Rule 6
+%Read in English as 'H1' is to the left of 'H2' in 'Houses'
 totheleft(H1,H2,Houses) :-
     append(_, [H1,H2|_], Houses).
 
+%Read in English as 'H1' is to the right of 'H2' in 'Houses'
 totheright(H1,H2,Houses) :-
     append( _, [H2,H1|_], Houses).
 
@@ -129,6 +131,7 @@ We know from rule 6 how to do the 'immediately to the left', immediately to the 
 %Next to = to the left || to the right %
 %this should be usable for rules 11, 12 and 15
 nextto(H1,H2,Houses) :-
+    % ; --> is the or operator, http://www.cse.unsw.edu.au/~billw/dictionaries/prolog/or.html
     totheleft(H1,H2,Houses) ; totheright( H1,H2,Houses ).
 
 %We also need to ultimately ask 
