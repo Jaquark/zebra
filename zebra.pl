@@ -140,7 +140,7 @@ totheleft(H1,H2,Houses) :-
 
 %Next to = to the left || to the right %
 nextto(H1,H2,Houses) :-
-    totheright(H1,H2,Houses),
+    totheright(H1,H2,Houses);
     totheleft(H1,H2,Houses).
 
 %11.The man who smokes Chesterfields lives in the house next to the man with the fox.
@@ -149,8 +149,15 @@ chesterfieldsnexttofox(N) :-
            h(_,_,_,_,fox),
            N).
 %12.Kools are smoked in the house next to the house where the horse is kept.
+koolsnexttohorse(N) :-
+    nextto(h(_,_,_,kool,_),
+            h(_,_,_,_,horse),
+            N).
 %15.The Norwegian lives next to the blue house
-
+norwaynexttoblue(N):-
+    nextto(h(_,norway,_,_,_),
+            h(blue,_,_,_,_),
+            N).
 
 %We also need to ultimately ask 
 %who owns the Zebra
@@ -224,13 +231,15 @@ neighborhood(N) :-
     %rule 10,
     norwegian(N), %I expect the english man's house to no longer be first...
     %rule 11,
-    chesterfieldsnexttofox(N),
+    %chesterfieldsnexttofox(N),
     %rule 12,
+    %koolsnexttohorse(N),
     %rule 13
     luckyoj(N),
     %rule 14
-    japaneseparliament(N).
+    japaneseparliament(N),
     %rule 15
+    norwaynexttoblue(N).
 
 
 %All the simple rules...:
