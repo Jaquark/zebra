@@ -111,20 +111,9 @@ norwegian(H) :-
 % would roughly translate to [White,Green|_]
 
 %Rule 6, maybe
-/*
+
 whitehouselefttogreencheck(H) :-
     H = [house(white,_,_,_,_),house(green,_,_,_,_)|_].
-
-As it turns out: No.
-The order, though, is basically true, but only works in the case of the leftmost, or rightmost...
-we would need to create a list of [L,R] or [R,L] and append it to H...
-Or just go through the permutations, as added to totheright and totheleft
-*/
-
-% Maybe I just need to brute for it?
-whitehouselefttogreencheck(H) :-
-    H = [house(white,_,_,_,_),house(green,_,_,_,_)|_].
-% This still only solves it if house 1 is white and house 2 is green...
 
 % Adjacency would work, using append/3 -
 % https://stackoverflow.com/questions/35667142/prolog-finding-adjacent-elements-in-a-list
@@ -132,49 +121,19 @@ whitehouselefttogreencheck(H) :-
 totheleft(H1,H2,Houses) :-
     append(_, [H1,H2|_], Houses).
 
-%which yielded this:
-/*
-
-?- [zebra].
-true.
-
-?- neighborhood(N).
-N = [house(green, norwegian, coffee, oldgold, snail), house(red, english, oj, luckystrike, _6668), 
-house(yellow, spanish, milk, kool, dog), house(white, ukrainian, tea, _6702, _6704),
-house(green, japanese, _6724, parliament, _6728)] 
-
-You're not wrong, just not right.
-*/
+totheright(H1,H2,Houses) :-
+    append( _, [H2,H1|_], Houses).
 
 /*
 "Next to", like rules 11, 12, 15, is like 'immediately to the right of' *or* 'immediately to the left of'
 We know from rule 6 how to do the 'immediately to the left', immediately to the right is just reverse of that
 */
 
-%H2 is to the right of H1%
-totheright(H1,H2,Houses) :-
-    Houses = [ H1,H2 | _].
 
 %Next to = to the left || to the right %
+%this should be usable for rules 11, 12 and 15
 nextto(H1,H2,Houses) :-
-    totheright(H1,H2,Houses),
-    totheleft(H1,H2,Houses).
-
-%11.The man who smokes Chesterfields lives in the house next to the man with the fox.
-chesterfieldsnexttofox(N) :-
-    nextto(h(_,_,_,chesterfield,_),
-           h(_,_,_,_,fox),
-           N).
-%12.Kools are smoked in the house next to the house where the horse is kept.
-koolsnexttohorse(N) :-
-    nextto(h(_,_,_,kool,_),
-            h(_,_,_,_,horse),
-            N).
-%15.The Norwegian lives next to the blue house
-norwaynexttoblue(N):-
-    nextto(h(_,norway,_,_,_),
-            h(blue,_,_,_,_),
-            N).
+    totheleft(H1,H2,Houses) ; totheright( _, [H1,H2|_], Houses).
 
 %We also need to ultimately ask 
 %who owns the Zebra
@@ -227,35 +186,37 @@ who_drinks_water(Person) :-
     member(house(_,Person,water,_,_), N).
 
 neighborhood(N) :-
+    
     %rule 1
-    length(N,5),
+    length(N,5),                                                %write('Rule number 1\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 2
-    englishhouse(N),
+    englishhouse(N),                                            %write('Rule number 3\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 3
-    spaniardshouse(N),
+    spaniardshouse(N),                                          %write('Rule number 3\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 4
-    coffeedrinkers(N),
-    %rule 5
-    ukrainianteadrinker(N),
+    coffeedrinkers(N),                                          %write('Rule number 4\n'),     write(N), write('\n\n\n\n\n\n'),
+    %rule 5 
+    ukrainianteadrinker(N),                                     %write('Rule number 5\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 6,
-    totheleft(house(white,_,_,_,_),house(green,_,_,_,_),N),
+    nextto(house(white,_,_,_,_),house(green,_,_,_,_),N),    %write('Rule number 6\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 7
-    oldgoldsnails(N),
+    oldgoldsnails(N),                                           %write('Rule number 7\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 8
-    koolyellow(N),
+    koolyellow(N),                                              %write('Rule number 8\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 9,
-    milk(N),
+    milk(N),                                                    %write('Rule number 9\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 10,
-    norwegian(N), %I expect the english man's house to no longer be first...
+    norwegian(N),                                               %write('Rule number 10\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 11,
-    %chesterfieldsnexttofox(N),
+    nextto(house(_,_,_,chesterfield,_),house(_,_,_,_,fox),N),   %write('Rule number 11\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 12,
-    %koolsnexttohorse(N),
+    nextto(house(_,_,_,kool,_),house(_,_,_,_,horse),N),         %write('Rule number 12\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 13
-    luckyoj(N),
+    luckyoj(N),                                                 %write('Rule number 13\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 14
-    japaneseparliament(N).
+    japaneseparliament(N).                                      %write('Rule number 14\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 15
+    %nextto(house(_,norwegian,_,_,_),house(blue,_,_,_,_),N), write(N).
     %norwaynexttoblue(N).
 
 
