@@ -110,14 +110,10 @@ norwegian(H) :-
 % that is (back to rule 6) the green house is immediately to the right of the ivory house
 % would roughly translate to [White,Green|_]
 
-%Rule 6, maybe
-
-whitehouselefttogreencheck(H) :-
-    H = [house(white,_,_,_,_),house(green,_,_,_,_)|_].
-
 % Adjacency would work, using append/3 -
 % https://stackoverflow.com/questions/35667142/prolog-finding-adjacent-elements-in-a-list
 
+%Rule 6
 totheleft(H1,H2,Houses) :-
     append(_, [H1,H2|_], Houses).
 
