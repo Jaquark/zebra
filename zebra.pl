@@ -123,23 +123,27 @@ Or just go through the permutations, as added to totheright and totheleft
 
 % Maybe I just need to brute for it?
 whitehouselefttogreencheck(H) :-
-    H = [house(white,_,_,_,_),house(green,_,_,_,_)|_] ; %OR
-        [_,house(white,_,_,_,_),house(green,_,_,_,_),_,_]; %OR
-        [_,_,house(white,_,_,_,_),house(green,_,_,_,_),_]; %OR
-        [_,_,_,house(white,_,_,_,_),house(green,_,_,_,_)]. %OR
-       
+    H = [house(white,_,_,_,_),house(green,_,_,_,_)|_].
+% This still only solves it if house 1 is white and house 2 is green...
 
+% Adjacency would work, using append/3 -
+% https://stackoverflow.com/questions/35667142/prolog-finding-adjacent-elements-in-a-list
 
+totheleft(H1,H2,Houses) :-
+    append(_, [H1,H2|_], Houses).
 
 %which yielded this:
 /*
-?- neighborhood(N).
-N = [house(white, norwegian, oj, luckystrike, _6716), house(green, spanish, coffee, _6678, dog), 
-house(red, english, milk, oldgold, snail),
- house(yellow, ukrainian, tea, kool, _6704), 
- house(_6756, japanese, _6760, parliament, _6764)] 
 
- and that /looks. right to me, as compared to other versions.
+?- [zebra].
+true.
+
+?- neighborhood(N).
+N = [house(green, norwegian, coffee, oldgold, snail), house(red, english, oj, luckystrike, _6668), 
+house(yellow, spanish, milk, kool, dog), house(white, ukrainian, tea, _6702, _6704),
+house(green, japanese, _6724, parliament, _6728)] 
+
+You're not wrong, just not right.
 */
 
 /*
@@ -151,13 +155,9 @@ We know from rule 6 how to do the 'immediately to the left', immediately to the 
 totheright(H1,H2,Houses) :-
     Houses = [ H1,H2 | _].
 
-%H2 is to the left of H1%
-totheleft(H1,H2,N) :-
-    N = [ H2,H1,_,_, _ ]; [ _,H2,H1,_,_, _ ] ; [ _,_,H2,H1,_, _] ; [ _,_,_,H2,H1].
-
 %Next to = to the left || to the right %
 nextto(H1,H2,Houses) :-
-    totheright(H1,H2,Houses);
+    totheright(H1,H2,Houses),
     totheleft(H1,H2,Houses).
 
 %11.The man who smokes Chesterfields lives in the house next to the man with the fox.
@@ -238,7 +238,7 @@ neighborhood(N) :-
     %rule 5
     ukrainianteadrinker(N),
     %rule 6,
-    whitehouselefttogreencheck(N),
+    totheleft(house(white,_,_,_,_),house(green,_,_,_,_),N),
     %rule 7
     oldgoldsnails(N),
     %rule 8
