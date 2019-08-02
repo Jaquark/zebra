@@ -10,9 +10,12 @@
 %
 
 
-% _ are variables, as in the mathematical sense not the programming sense 
-% knowing that we can make a predicate that the english man's house is red, and
-% has three unknown variables:
+% UNSW is a life saver for this, clearing up my preconceived notions:
+% http://www.cse.unsw.edu.au/~billw/dictionaries/prolog/dontcare.html
+% _ are 'dont care' variables, though I suppose a "something" variable would be more apt, in which it will match anything in a predicate or rule.
+% thus we can build our constraints with what we know for specific rules, and "not care"
+% about rules out of scope for that specific predicate
+% e.g. The Englishman lives in the red house --> house(red, english, _,_,_)
 % This is Rule 2:
 %2.The Englishman lives in the red house.
 
@@ -20,17 +23,17 @@ englishhouse(H) :-
     member(house(red,
                   english,
                   _, %Don't know the drink
-                  _, %don't knowpythontheir smokes
-                  _ %don't know pythonheir pet
+                  _, %don't know their smokes
+                  _ %don't know their pet
                   ), H).
 
 %Rule 3:
 %3.The Spaniard owns the dog.
 spaniardshouse(H) :-
-    member(house(_, %don't know pythonhe color
+    member(house(_, %don't know their color
                  spanish,
-                 _, %dont know tpythone drink
-                 _, %don't know pythonhat they smoke
+                 _, %dont know their drink
+                 _, %don't know their they smoke
                  dog
                  ), H).
 
@@ -102,13 +105,6 @@ milk(H) :-
 %We can then, with the Norwegian, just take the head:
 norwegian(H) :-
     H = [house(_,norwegian,_,_,_)|_].
-
-%Interesting to note that 
-% [house(_,norwegian,_,_,_),_,_,_,_] is sematically the same [house(_,norwegian,_,_,_)|_]
-% First, in this case, can be thought of as 'to the left of second'
-% Does that mean, then, we can literally order things?
-% that is (back to rule 6) the green house is immediately to the right of the ivory house
-% would roughly translate to [White,Green|_]
 
 % Adjacency would work, using append/3 -
 % https://stackoverflow.com/questions/35667142/prolog-finding-adjacent-elements-in-a-list
