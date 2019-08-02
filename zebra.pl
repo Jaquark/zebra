@@ -156,7 +156,7 @@ neighborhood(N) :-
     %rule 5 
     ukrainianteadrinker(N),                                     %write('Rule number 5\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 6,
-    nextto(house(white,_,_,_,_),house(green,_,_,_,_),N),    %write('Rule number 6\n'),     write(N), write('\n\n\n\n\n\n'),
+    totheleft(house(white,_,_,_,_),house(green,_,_,_,_),N),    %write('Rule number 6\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 7
     oldgoldsnails(N),                                           %write('Rule number 7\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 8
