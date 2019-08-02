@@ -133,7 +133,7 @@ We know from rule 6 how to do the 'immediately to the left', immediately to the 
 %Next to = to the left || to the right %
 %this should be usable for rules 11, 12 and 15
 nextto(H1,H2,Houses) :-
-    totheleft(H1,H2,Houses) ; totheright( _, [H1,H2|_], Houses).
+    totheleft(H1,H2,Houses) ; totheright( H1,H2,Houses ).
 
 %We also need to ultimately ask 
 %who owns the Zebra
@@ -141,44 +141,6 @@ nextto(H1,H2,Houses) :-
 who_owns_the_zebra(Person) :- 
     neighborhood(N),
     member(house(_,Person,_,_,zebra), N).
-
-who_owns_the_snail(Person) :- 
-    /* what is a singleton variable warning?
-        Warning: /home/christopher/Desktop/Project2/zebra.pl:114:
-        Singleton variables: [N]
-        It's not bound? https://www.swi-prolog.org/FAQ/SingletonVar.html
-        if I run [zebra]. neighborhood(N). who_owns_the_snail(N). I just get true?
-        N looks to be out of scope, pass it in as a variable?
-                ?- [zebra].
-            Warning: /home/christopher/Desktop/Project2/zebra.pl:114:
-                    Singleton variables: [N]
-            true.
-
-            ?- length(N,5).
-            N = [_6616, _6622, _6628, _6634, _6640].
-
-            ?- neighborhood(N).
-
-            Could not reenable global-stack
-            Could not reenable global-stack
-            Could not reenable global-stack
-            Could not reenable global-stack
-
-    */
-    neighborhood(N), %Does this work?
-    /* Yes
-    ?- [zebra].
-    Warning: /home/christopher/Desktop/Project2/zebra.pl:114:
-            Singleton variables: [N]
-    true.
-
-    ?- who_owns_the_snail(Person).
-    Person = norwegian 
-
-    The same thing should then work for the zebra and water;
-    just have to implement the other rules.
-    */
-    member(house(_,Person,_,_,snail), N).
 
 %who drinks the water
 who_drinks_water(Person) :- 
@@ -214,60 +176,19 @@ neighborhood(N) :-
     %rule 13
     luckyoj(N),                                                 %write('Rule number 13\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 14
-    japaneseparliament(N).                                      %write('Rule number 14\n'),     write(N), write('\n\n\n\n\n\n'),
+    japaneseparliament(N),                                      %write('Rule number 14\n'),     write(N), write('\n\n\n\n\n\n'),
     %rule 15
-    %nextto(house(_,norwegian,_,_,_),house(blue,_,_,_,_),N), write(N).
+    nextto(house(_,norwegian,_,_,_),house(blue,_,_,_,_),N).
     %norwaynexttoblue(N).
 
 
-%All the simple rules...:
 /*
-christopher@christopher-NV57H:~/Desktop/Project2$ swipl
-Welcome to SWI-Prolog (threaded, 64 bits, version 8.0.3)
-SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
-Please run ?- license. for legal details.
-
-For online help and background, visit http://www.swi-prolog.org
-For built-in help, use ?- help(Topic). or ?- apropos(Word).
-
-?- [zebra].
-true.
-
 ?- neighborhood(N).
-N = [house(red, english, _6676, oldgold, snail), house(green, spanish, coffee, _6710, dog), house(yellow, ukrainian, tea, kool, _6768), house(_6832, _6838, oj, luckystrike, _6852), house(_6860, japanese, _6872, ..., ...)] 
-*/
+N = [house(yellow, norwegian, _6778, kool, fox), house(blue, ukrainian, tea, chesterfield, horse), house(red, english, milk, oldgold, snail), house(white, spanish, oj, luckystrike, dog), house(green, japanese, coffee, parliament, _6692)] .
 
-/*
-Adding in the milk drinker:
-christopher@christopher-NV57H:~/Desktop/Project2$ swipl
-Welcome to SWI-Prolog (threaded, 64 bits, version 8.0.3)
-SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
-Please run ?- license. for legal details.
+?- who_owns_the_zebra(N).
+N = japanese .
 
-For online help and background, visit http://www.swi-prolog.org
-For built-in help, use ?- help(Topic). or ?- apropos(Word).
-
-?- [zebra].
-true.
-
-?- neighborhood(N).
-N = [house(red, english, _6664, oldgold, snail), house(green, spanish, coffee, _6678, dog), house(_6732, japanese, milk, parliament, _6740), house(yellow, ukrainian, tea, kool, _6704), house(_6744, _6746, oj, luckystrike, _6752)] 
-*/
-
-/*
-Adding the norwegian...
-christopher@christopher-NV57H:~/Desktop/Project2$ swipl
-Welcome to SWI-Prolog (threaded, 64 bits, version 8.0.3)
-SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
-Please run ?- license. for legal details.
-
-For online help and background, visit http://www.swi-prolog.org
-For built-in help, use ?- help(Topic). or ?- apropos(Word).
-
-?- [zebra].
-true.
-
-?- neighborhood(N)
-|    .
-N = [house(green, norwegian, coffee, oldgold, snail), house(red, english, oj, luckystrike, _6668), house(yellow, spanish, milk, kool, dog), house(_6696, ukrainian, tea, _6702, _6704), house(_6744, japanese, _6748, parliament, _6752)] 
+?- who_drinks_water(Person).
+Person = norwegian .
 */
