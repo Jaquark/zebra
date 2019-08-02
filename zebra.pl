@@ -121,6 +121,14 @@ we would need to create a list of [L,R] or [R,L] and append it to H...
 Or just go through the permutations, as added to totheright and totheleft
 */
 
+% Maybe I just need to brute for it?
+whitehouselefttogreencheck(H) :-
+    H = [house(white,_,_,_,_),house(green,_,_,_,_)|_] ; %OR
+        [_,house(white,_,_,_,_),house(green,_,_,_,_),_,_]; %OR
+        [_,_,house(white,_,_,_,_),house(green,_,_,_,_),_]; %OR
+        [_,_,_,house(white,_,_,_,_),house(green,_,_,_,_)]. %OR
+       
+
 
 
 %which yielded this:
@@ -141,11 +149,11 @@ We know from rule 6 how to do the 'immediately to the left', immediately to the 
 
 %H2 is to the right of H1%
 totheright(H1,H2,Houses) :-
-    Houses = [ H1,H2,_,_, _ ]; [ _, H1,H2,_, _ ] ; [ _,_,H1,H2,_, _ ] ; [ _,_,_,H1,H2 ].
+    Houses = [ H1,H2 | _].
 
 %H2 is to the left of H1%
-totheleft(H1,H2,Houses) :-
-    Houses = [ H2,H1,_,_, _ ]; [ _,H2,H1,_,_, _ ] ; [ _,_,H2,H1,_, _] ; [ _,_,_,H2,H1].
+totheleft(H1,H2,N) :-
+    N = [ H2,H1,_,_, _ ]; [ _,H2,H1,_,_, _ ] ; [ _,_,H2,H1,_, _] ; [ _,_,_,H2,H1].
 
 %Next to = to the left || to the right %
 nextto(H1,H2,Houses) :-
@@ -230,7 +238,7 @@ neighborhood(N) :-
     %rule 5
     ukrainianteadrinker(N),
     %rule 6,
-    totheleft( house(white,_,_,_,_) , house(green,_,_,_,_) ,N),
+    whitehouselefttogreencheck(N),
     %rule 7
     oldgoldsnails(N),
     %rule 8
